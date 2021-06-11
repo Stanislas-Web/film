@@ -1,0 +1,1 @@
+const baseUrl = "http://api.themoviedb.org/3";
