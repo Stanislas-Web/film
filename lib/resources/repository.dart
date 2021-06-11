@@ -9,8 +9,6 @@ class Repository {
   MovieApiProvider moviesApiProvider = MovieApiProvider();
   TvApiProvider tvApiProvider = TvApiProvider();
   GenresApiProvider genresApiProvider = GenresApiProvider();
-
-
   Future<ItemModel> fetchAllMovies() => moviesApiProvider.fetchMovieList();
   Future<ItemModel> fetchAllTv() => tvApiProvider.fetchTvList();
   Future<GenresModel> fetchAllGenres() => genresApiProvider.fetchGenreList();

@@ -43,19 +43,7 @@ class HomeState extends State<Home> {
             child: Icon(Icons.search,color: Colors.grey,)
             )
         ],
-
       ),
-      // body:StreamBuilder(
-      //                 stream: bloc.allMovies,
-      //                 builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-      //                   if (snapshot.hasData) {
-      //                     return buildList(snapshot);
-      //                   } else if (snapshot.hasError) {
-      //                     return Text(snapshot.error.toString());
-      //                   }
-      //                   return Center(child: CircularProgressIndicator());
-      //                 },
-      //             ),
 
       body: Container(
         child: Column(
@@ -82,13 +70,14 @@ class HomeState extends State<Home> {
                         },
                     ),
             ),
-            
+            Divider(color: Colors.grey,height: 10,),
             Padding(
             padding: EdgeInsets.only(left:20,top: 20, ),
             child: Text("Popular Tv", style: TextStyle(
               fontWeight:FontWeight.bold,
               fontSize: 20
             ),)),
+            
             Flexible(
                         child: StreamBuilder(
                         stream: bloc.allMovies,

@@ -9,7 +9,7 @@ class MovieApiProvider {
   Client client = Client();
 
   Future<ItemModel> fetchMovieList() async {
-    final response = await client.get(Uri.parse("$baseUrl/popular?api_key=$apiKey"));
+    final response = await client.get(Uri.parse("$baseUrl/movie/popular?api_key=$apiKey"));
     print(response.body.toString());
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON

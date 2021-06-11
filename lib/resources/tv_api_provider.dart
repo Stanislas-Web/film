@@ -7,7 +7,6 @@ import '../models/item_model.dart';
 
 class TvApiProvider {
   Client client = Client();
-
     Future<ItemModel> fetchTvList() async {
     final response = await client.get(Uri.parse("$baseUrl/tv/popular?api_key=$apiKey"));
     print(response.body.toString());
