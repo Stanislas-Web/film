@@ -1,9 +1,6 @@
-import 'package:film/models/popularTv_model.dart';
-import 'package:film/ui/widget/animation.dart';
 import 'package:flutter/material.dart';
 import '../models/item_model.dart';
 import '../blocs/movies_bloc.dart';
-import '../blocs/tv_bloc.dart';
 import 'movie_detail.dart';
 
 class Home extends StatefulWidget {
@@ -18,15 +15,12 @@ class HomeState extends State<Home> {
   void initState() {
     super.initState();
     blocMovie.fetchAllMovies();
-    blocTv.fetchAllTv();
   }
 
   @override
   void dispose() {
-    // super.dispose();
-    // blocMovie.dispose();
-    // blocTv.dispose();
-    
+    blocMovie.dispose();
+    super.dispose();
   }
 
   @override
@@ -37,13 +31,11 @@ class HomeState extends State<Home> {
         elevation: 0,
         leading: Padding(
           padding: EdgeInsets.only(left:10),
-            child: Center(child: DelayedAnimation(delay:1000,
-                  child: Text('film ',style: TextStyle(
+                  child: Center(child: Text('film ',style: TextStyle(
             color:Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 17
-          ),),
-                  ),),
+          ),),),
         ),
         actions: [
           Padding(
@@ -59,20 +51,18 @@ class HomeState extends State<Home> {
           children:[
             Padding(
             padding: EdgeInsets.only(left:20,top: 20, ),
-            child: DelayedAnimation(delay: 2500,
-                          child: Text("Popular Série", style: TextStyle(
-                fontWeight:FontWeight.bold,
-                fontSize: 20
-              ),),
-            )),
+            child: Text("Popular Film", style: TextStyle(
+              fontWeight:FontWeight.bold,
+              fontSize: 20
+            ),)),
             Flexible(
                         child: StreamBuilder(
-                         stream: blocTv.allTv,
-                        builder: (context, AsyncSnapshot<PopularTvModel> snapshot) {
+                        stream: blocMovie.allMovies,
+                        builder: (context, AsyncSnapshot<ItemModel> snapshot) {
                           if (snapshot.hasData) {
                             return Container(
                               height:350,
-                              child: buildTv(snapshot));
+                              child: buildList(snapshot));
                           } else if (snapshot.hasError) {
                             return Text(snapshot.error.toString());
                           }
@@ -83,12 +73,10 @@ class HomeState extends State<Home> {
             Divider(color: Colors.grey,height: 10,),
             Padding(
             padding: EdgeInsets.only(left:20,top: 20, ),
-            child: DelayedAnimation(delay: 3500,
-                          child: Text("Popular Film", style: TextStyle(
-                fontWeight:FontWeight.bold,
-                fontSize: 20
-              ),),
-            )),
+            child: Text("Popular Tv", style: TextStyle(
+              fontWeight:FontWeight.bold,
+              fontSize: 20
+            ),)),
             
             Flexible(
                         child: StreamBuilder(
@@ -96,9 +84,9 @@ class HomeState extends State<Home> {
                         builder: (context, AsyncSnapshot<ItemModel> snapshot) {
                           if (snapshot.hasData) {
                             return Container(
-                           
+                              
                                height: 120,
-                              child: buildList(snapshot));
+                              child: buildTv(snapshot));
                           } else if (snapshot.hasError) {
                             return Text(snapshot.error.toString());
                           }
@@ -116,7 +104,7 @@ class HomeState extends State<Home> {
     );
   }
 
-    Widget buildList(AsyncSnapshot<ItemModel> snapshot) {
+    Widget buildTv(AsyncSnapshot<ItemModel> snapshot) {
     return ListView.builder(
         shrinkWrap: true,
         itemCount: snapshot.data.results.length,
@@ -208,7 +196,7 @@ class HomeState extends State<Home> {
         });
   }
 
-  Widget buildTv(AsyncSnapshot<PopularTvModel> snapshot) {
+  Widget buildList(AsyncSnapshot<ItemModel> snapshot) {
     return ListView.builder(
         shrinkWrap: true,
         itemCount: snapshot.data.results.length,

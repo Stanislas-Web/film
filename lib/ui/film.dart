@@ -1,32 +1,27 @@
-import 'package:film/models/popularTv_model.dart';
-import 'package:film/ui/widget/animation.dart';
 import 'package:flutter/material.dart';
 import '../models/item_model.dart';
 import '../blocs/movies_bloc.dart';
-import '../blocs/tv_bloc.dart';
 import 'movie_detail.dart';
+import 'package:film/ui/widget/animation.dart';
 
-class Home extends StatefulWidget {
+class Film extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return HomeState();
+    return FilmState();
   }
 }
 
-class HomeState extends State<Home> {
+class FilmState extends State<Film> {
   @override
   void initState() {
     super.initState();
     blocMovie.fetchAllMovies();
-    blocTv.fetchAllTv();
   }
 
   @override
   void dispose() {
-    // super.dispose();
     // blocMovie.dispose();
-    // blocTv.dispose();
-    
+    // super.dispose();
   }
 
   @override
@@ -37,13 +32,11 @@ class HomeState extends State<Home> {
         elevation: 0,
         leading: Padding(
           padding: EdgeInsets.only(left:10),
-            child: Center(child: DelayedAnimation(delay:1000,
-                  child: Text('film ',style: TextStyle(
+                  child: Center(child: Text('film ',style: TextStyle(
             color:Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 17
-          ),),
-                  ),),
+          ),),),
         ),
         actions: [
           Padding(
@@ -53,70 +46,26 @@ class HomeState extends State<Home> {
         ],
       ),
 
-      body: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:[
-            Padding(
-            padding: EdgeInsets.only(left:20,top: 20, ),
-            child: DelayedAnimation(delay: 2500,
-                          child: Text("Popular Série", style: TextStyle(
-                fontWeight:FontWeight.bold,
-                fontSize: 20
-              ),),
-            )),
-            Flexible(
-                        child: StreamBuilder(
-                         stream: blocTv.allTv,
-                        builder: (context, AsyncSnapshot<PopularTvModel> snapshot) {
-                          if (snapshot.hasData) {
-                            return Container(
-                              height:350,
-                              child: buildTv(snapshot));
-                          } else if (snapshot.hasError) {
-                            return Text(snapshot.error.toString());
-                          }
-                          return Center(child: CircularProgressIndicator());
-                        },
-                    ),
-            ),
-            Divider(color: Colors.grey,height: 10,),
-            Padding(
-            padding: EdgeInsets.only(left:20,top: 20, ),
-            child: DelayedAnimation(delay: 3500,
-                          child: Text("Popular Film", style: TextStyle(
-                fontWeight:FontWeight.bold,
-                fontSize: 20
-              ),),
-            )),
-            
-            Flexible(
-                        child: StreamBuilder(
-                        stream: blocMovie.allMovies,
-                        builder: (context, AsyncSnapshot<ItemModel> snapshot) {
-                          if (snapshot.hasData) {
-                            return Container(
-                           
-                               height: 120,
-                              child: buildList(snapshot));
-                          } else if (snapshot.hasError) {
-                            return Text(snapshot.error.toString());
-                          }
-                          return Center(child: CircularProgressIndicator());
-                        },
-                    ),
-            ),
-            
-
-
-          ]
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            DelayedAnimation(child: FlutterLogo(size: 200,),delay: 1500,),
+            SizedBox(height:20),
+            DelayedAnimation(child: Text('Bonjour',style: TextStyle(
+              fontSize:50,
+              fontWeight:FontWeight.bold,
+            ),), delay:2500 )
+          ],
         ),
-      ),
+      )
            
     );
   }
 
-    Widget buildList(AsyncSnapshot<ItemModel> snapshot) {
+    Widget buildTv(AsyncSnapshot<ItemModel> snapshot) {
     return ListView.builder(
         shrinkWrap: true,
         itemCount: snapshot.data.results.length,
@@ -208,7 +157,7 @@ class HomeState extends State<Home> {
         });
   }
 
-  Widget buildTv(AsyncSnapshot<PopularTvModel> snapshot) {
+  Widget buildList(AsyncSnapshot<ItemModel> snapshot) {
     return ListView.builder(
         shrinkWrap: true,
         itemCount: snapshot.data.results.length,

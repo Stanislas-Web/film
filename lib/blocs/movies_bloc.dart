@@ -6,6 +6,7 @@ class MoviesBloc {
   final _repository = Repository();
   final _moviesFetcher = PublishSubject<ItemModel>();
 
+
   Stream<ItemModel> get allMovies => _moviesFetcher.stream;
   fetchAllMovies() async {
     ItemModel itemModel = await _repository.fetchAllMovies();
@@ -15,6 +16,8 @@ class MoviesBloc {
   dispose() {
     _moviesFetcher.close();
   }
+
+  void close() {}
 }
 
-final bloc = MoviesBloc();
+final blocMovie = MoviesBloc();

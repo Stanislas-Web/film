@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:film/config/size_config.dart';
+import 'package:film/ui/film.dart';
 import 'package:film/ui/home.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
@@ -58,7 +59,7 @@ class _RouteStackState extends State<RouteStack> {
     });
   }
 
-  List<Widget> _screens = [Home()];
+  List<Widget> _screens = [Home(),Film(),Film(),Film()];
 
   // ignore: unused_element
   void _onItemTapped(int index) {
@@ -136,7 +137,7 @@ class _RouteStackState extends State<RouteStack> {
             ),
               BottomNavyBarItem(
               // icon: SvgPicture.asset("assets/icons/users.svg"),
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.favorite),
               title: Text(
                 'Favoris',
                 style: TextStyle(

@@ -14,12 +14,12 @@ class MovieListState extends State<MovieList> {
   @override
   void initState() {
     super.initState();
-    bloc.fetchAllMovies();
+    blocMovie.fetchAllMovies();
   }
 
   @override
   void dispose() {
-    bloc.dispose();
+    blocMovie.dispose();
     super.dispose();
   }
 
@@ -30,7 +30,7 @@ class MovieListState extends State<MovieList> {
         title: Text('Popular Movies'),
       ),
       body: StreamBuilder(
-        stream: bloc.allMovies,
+        stream: blocMovie.allMovies,
         builder: (context, AsyncSnapshot<ItemModel> snapshot) {
           if (snapshot.hasData) {
             return buildList(snapshot);

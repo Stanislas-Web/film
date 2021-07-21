@@ -1,20 +1,23 @@
+import 'package:film/models/popularTv_model.dart';
+
 import '../resources/repository.dart';
 import 'package:rxdart/rxdart.dart';
-import '../models/item_model.dart';
 
 class TvBloc {
   final _repository = Repository();
-  final _tvFetcher = PublishSubject<ItemModel>();
+  final _tvFetcher = PublishSubject<PopularTvModel>();
 
-  Stream<ItemModel> get allTv => _tvFetcher.stream;
-  fetchAllMovies() async {
-    ItemModel itemModel = await _repository.fetchAllMovies();
-    _tvFetcher.sink.add(itemModel);
+  
+  Stream<PopularTvModel> get allTv => _tvFetcher.stream;
+  fetchAllTv() async {
+    PopularTvModel popularTVModel = await _repository.fetchAllTv();
+    _tvFetcher.sink.add(popularTVModel);
   }
 
   dispose() {
     _tvFetcher.close();
   }
+  
 }
 
-final bloc = TvBloc();
+final blocTv = TvBloc();
