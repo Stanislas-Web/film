@@ -15,7 +15,7 @@ class FilmState extends State<Film> {
   @override
   void initState() {
     super.initState();
-    blocMovie.fetchAllMovies();
+    // blocMovie.fetchAllMovies();
   }
 
   @override
