@@ -1,3 +1,5 @@
+import 'package:film/blocs/genres_bloc.dart';
+import 'package:film/models/genre_model.dart';
 import 'package:film/models/popularTv_model.dart';
 import 'package:film/ui/widget/animation.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class HomeState extends State<Home> {
     super.initState();
     blocMovie.fetchAllMovies();
     blocTv.fetchAllTv();
+    blocGenres.fetchAllGenres();
   }
 
   @override
@@ -62,6 +65,19 @@ class HomeState extends State<Home> {
           child: Container(
           height: MediaQuery.of(context).size.height,
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Flexible(
+              child: StreamBuilder(
+                stream: blocGenres.allGenres,
+                builder: (context, AsyncSnapshot<GenresModel> snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(height: 60, child: DelayedAnimation(delay: 3500,child: buildGenre(snapshot)));
+                  } else if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
+              ),
+            ),
             Padding(
                 padding: EdgeInsets.only(
                   left: 20,
@@ -120,6 +136,34 @@ class HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  Widget buildGenre(AsyncSnapshot<GenresModel> snapshot){
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: snapshot.data.genres.length,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (BuildContext context, int index){
+      return Container(
+        // height:50,
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+           border: Border.all(color: Colors.grey[300]),
+           borderRadius: BorderRadius.circular(10)
+        ),
+        child: Text(
+            snapshot.data.genres[index].name,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.w300),
+            textAlign: TextAlign.center,
+        ),
+      );
+    });
+    
   }
 
   Widget buildList(AsyncSnapshot<ItemModel> snapshot) {
